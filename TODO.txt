@@ -1,3 +1,0 @@
-#feat1 矢印でページめくりをする
-TODO:nextPage関数をつくる
-TODO:rightArrowを監視して、ページをめくる。
