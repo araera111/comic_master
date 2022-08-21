@@ -1,3 +1,4 @@
+import { decompressSync } from 'fflate';
 import { ReactNode } from 'react';
 import { readDirSync } from '../../../samples/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
@@ -9,6 +10,15 @@ type FileDropZoneProps = {
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const setPageUrlList = useViewerStore((state) => state.setPageUrlList);
   const resetPage = useViewerStore((state) => state.resetPage);
+  const zip = async (path: string) => {
+    console.log('zip');
+    const data = await await fetch(path);
+    console.log({ data });
+    const buf = await data.arrayBuffer();
+    const compressed = await new Uint8Array(buf);
+    const decompressed = decompressSync(compressed);
+    console.log({ decompressed });
+  };
   return (
     <div
       onDragOver={(e) => {
@@ -16,7 +26,12 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
       }}
       onDrop={async (e) => {
         e.preventDefault();
-        const { path } = e.dataTransfer.files[0];
+        const { path, type } = e.dataTransfer.files[0];
+        if (type === 'application/x-zip-compressed') {
+          zip(path);
+          return;
+        }
+        console.log(e.dataTransfer.files[0]);
         const files = await readDirSync(path);
         const result = files.map((fileName) => `${path}/${fileName}`);
         setPageUrlList(result);
