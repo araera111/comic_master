@@ -1,4 +1,3 @@
 #feat1 矢印でページめくりをする
 TODO:nextPage関数をつくる
-TODO:現在のページを管理するストアを作成する
-TODO:
+TODO:rightArrowを監視して、ページをめくる。
