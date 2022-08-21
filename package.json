@@ -24,7 +24,6 @@
     "@typescript-eslint/parser": "^5.33.1",
     "@vitejs/plugin-react": "^2.0.1",
     "autoprefixer": "^10.4.8",
-    "electron": "^20.0.3",
     "electron-builder": "^23.3.3",
     "eslint": "^8.22.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -47,6 +46,8 @@
     "VITE_DEV_SERVER_PORT": 7777
   },
   "dependencies": {
+    "electron": "^20.0.3",
+    "rambda": "^7.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zustand": "^4.1.0"

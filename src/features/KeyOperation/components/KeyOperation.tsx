@@ -7,10 +7,12 @@ export const KeyOperation = () => {
   const keyFunction = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === 'ArrowRight') {
+        event.preventDefault();
         prev(1);
       }
 
       if (event.key === 'ArrowLeft') {
+        event.preventDefault();
         next(1);
       }
     },
