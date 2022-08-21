@@ -1,23 +1,17 @@
-import { useCallback, useEffect } from 'react';
+import { useKey } from 'rooks';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
 
 export const KeyOperation = () => {
   const next = useViewerStore((state) => state.nextPage);
+  const nextOne = useViewerStore((state) => state.nextOnePage);
   const prev = useViewerStore((state) => state.prevPage);
-  const keyFunction = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight') {
-        prev(1);
-      }
-
-      if (event.key === 'ArrowLeft') {
-        next(1);
-      }
-    },
-    [next, prev]
-  );
-  useEffect(() => {
-    document.addEventListener('keydown', keyFunction, false);
-  }, [keyFunction]);
+  const prevOne = useViewerStore((state) => state.prevOnePage);
+  const changeMode = useViewerStore((state) => state.changeMode);
+  const mode = useViewerStore((state) => state.mode);
+  useKey(['ArrowRight'], () => prev());
+  useKey(['ArrowLeft'], () => next());
+  useKey(['z'], () => changeMode(mode === 'single' ? 'spreadStartRight' : 'single'));
+  useKey(['a'], () => nextOne());
+  useKey(['q'], () => prevOne());
   return null;
 };
