@@ -59,7 +59,7 @@ export default defineConfig({
 
 function withDebug(config: UserConfig): UserConfig {
   if (process.env.VSCODE_DEBUG) {
-    config.build.sourcemap = true;
+    //config.build.sourcemap = true;
     config.plugins = (config.plugins || []).concat({
       name: 'electron-vite-debug',
       configResolved(config) {
