@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer } from 'electron';
-import { readdirSync } from 'fs';
+import { readdirSync, readFileSync, statSync } from 'fs';
 import { lstat } from 'fs/promises';
-import path, { normalize } from 'path';
+import path, { extname, normalize } from 'path';
 import { cwd } from 'process';
 
 ipcRenderer.on('main-process-message', (_event, ...args) => {
@@ -18,5 +18,9 @@ lstat(cwd())
   });
 
 export const readDirSync = async (path: string) => readdirSync(path);
+export const nodeReadFileSync64 = async (path: string) => readFileSync(path, { encoding: 'base64' });
+export const nodeReadFileSync = async (path: string) => readFileSync(path);
 export const normalizePath = (str: string) => normalize(str);
 export const paths = () => path;
+export const nodeFsStats = async (path: string) => statSync(path);
+export const nodeExtnum = async (path: string) => extname(path);
