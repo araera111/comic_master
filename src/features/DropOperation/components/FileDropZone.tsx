@@ -10,11 +10,20 @@ import {
   readDirSync
 } from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
-import { enableExtnames, getDirectoryImageFiles, getExtName } from '../utils/dropOperationUtil';
+import {
+  enableExtnames,
+  getDirectoryImageFiles,
+  getExtName,
+  getFileIndexFromFileName
+} from '../utils/dropOperationUtil';
 
 type FileDropZoneProps = {
   children: ReactNode;
 };
+
+interface FileAddPath extends File {
+  path: string;
+}
 export function BlobToURI(blob: Blob) {
   const fileReader = new FileReader();
   // eslint-disable-next-line no-promise-executor-return
@@ -28,7 +37,7 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const resetPage = useViewerStore((state) => state.resetPage);
 
   const directory = async (path: string) => {
-    const imageFiles = await getDirectoryImageFiles(path);
+    const [imageFiles] = await getDirectoryImageFiles(path);
     setPageUrlList(imageFiles);
     resetPage();
   };
@@ -61,8 +70,9 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
       }}
       onDrop={async (e) => {
         e.preventDefault();
-        const { path, type } = e.dataTransfer.files[0];
-        console.log({ path, type });
+        const item0 = e.dataTransfer.files.item(0);
+        if (item0 === null) return;
+        const { path, type } = item0 as FileAddPath;
         const stats = await nodeFsStats(path);
         const isDir = stats.isDirectory();
         if (isDir) {
@@ -74,11 +84,11 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         }
 
         if (type === 'image/jpeg') {
-          console.log('jpeg');
           const directory = await nodeDirname(path);
-          const imageFiles = await getDirectoryImageFiles(directory);
+          const [imageFiles, fileNames] = await getDirectoryImageFiles(directory);
           setPageUrlList(imageFiles);
-          console.log({ directory, imageFiles });
+          const fileIndex = getFileIndexFromFileName(fileNames, path);
+          console.log({ fileIndex });
         }
       }}
     >

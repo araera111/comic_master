@@ -6,10 +6,10 @@ export const enableExtnames = ['jpg', 'jpeg', 'png'];
 
 export const getExtName = (path: string): string => path.split('.').pop() ?? '';
 
-export const getDirectoryImageFiles = async (path: string): Promise<string[]> => {
+export const getDirectoryImageFiles = async (path: string): Promise<[string[], string[]]> => {
   const files = await readDirSync(path);
   const result = files
-    .map((fileName) => `${path}/${fileName}`)
+    .map((fileName) => `${path}\\${fileName}`)
     .filter(async (filePath) => {
       const extName = await nodeExtnum(filePath);
       return enableExtnames.includes(extName);
@@ -22,5 +22,11 @@ export const getDirectoryImageFiles = async (path: string): Promise<string[]> =>
     const url = `data:image/png;base64,${base64}`;
     arr = [...arr, url];
   }
-  return arr;
+  return [arr, result];
 };
+
+export const getFileIndexFromFileName = (files: string[], fileName: string) =>
+  files.findIndex((file) => {
+    console.log({ file, fileName });
+    return file === fileName;
+  });
