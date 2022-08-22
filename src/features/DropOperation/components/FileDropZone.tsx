@@ -1,9 +1,9 @@
-import { decompressSync, unzipSync } from 'fflate';
-import { values } from 'rambda';
+import { unzipSync } from 'fflate';
+import { includes, toPairs } from 'rambda';
 import { ReactNode } from 'react';
 import { nodeExtnum, nodeFsStats, nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../samples/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
-import { uint8ArrayToBase64 } from '../utils/dropOperationUtil';
+import { enableExtnames, getExtName } from '../utils/dropOperationUtil';
 
 type FileDropZoneProps = {
   children: ReactNode;
@@ -43,12 +43,21 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const zip = async (path: string) => {
     const data = await nodeReadFileSync(path);
     const decompressed = await unzipSync(data);
-    const result = values(decompressed);
-    const blob = new Blob([result[0]]);
 
-    const d = (await BlobToURI(blob)) as string;
-    console.log({ d });
-    const arr: string[] = [d];
+    /* jpg,pngなどでフィルタ */
+    const pairs = toPairs(decompressed).filter(([fileName]) => {
+      const extName = getExtName(fileName);
+      return includes(extName, enableExtnames);
+    });
+
+    let arr: string[] = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [_, iter] of pairs) {
+      const blob = new Blob([iter], { type: 'image/png' });
+      // eslint-disable-next-line no-await-in-loop
+      const d = (await BlobToURI(blob)) as string;
+      arr = [...arr, d];
+    }
     setPageUrlList(arr);
     /* ファイルを読み込んだらリセットする */
     resetPage();
@@ -61,7 +70,6 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
       onDrop={async (e) => {
         e.preventDefault();
         const { path, type } = e.dataTransfer.files[0];
-        console.log({ path, type });
         const stats = await nodeFsStats(path);
         const isDir = stats.isDirectory();
         if (isDir) {
