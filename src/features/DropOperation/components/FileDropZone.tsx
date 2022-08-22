@@ -10,7 +10,7 @@ import {
   readDirSync
 } from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
-import { enableExtnames, getExtName } from '../utils/dropOperationUtil';
+import { enableExtnames, getDirectoryImageFiles, getExtName } from '../utils/dropOperationUtil';
 
 type FileDropZoneProps = {
   children: ReactNode;
@@ -28,23 +28,8 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const resetPage = useViewerStore((state) => state.resetPage);
 
   const directory = async (path: string) => {
-    const files = await readDirSync(path);
-    const result = files
-      .map((fileName) => `${path}/${fileName}`)
-      .filter(async (filePath) => {
-        const extName = await nodeExtnum(filePath);
-        return enableExtnames.includes(extName);
-      });
-    let arr: string[] = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const path of result) {
-      // eslint-disable-next-line no-await-in-loop
-      const base64 = await nodeReadFileSync64(path);
-      const url = `data:image/png;base64,${base64}`;
-      arr = [...arr, url];
-    }
-    setPageUrlList(arr);
-    /* ファイルを読み込んだらリセットする */
+    const imageFiles = await getDirectoryImageFiles(path);
+    setPageUrlList(imageFiles);
     resetPage();
   };
   const zip = async (path: string) => {
@@ -91,7 +76,9 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         if (type === 'image/jpeg') {
           console.log('jpeg');
           const directory = await nodeDirname(path);
-          console.log({ directory });
+          const imageFiles = await getDirectoryImageFiles(directory);
+          setPageUrlList(imageFiles);
+          console.log({ directory, imageFiles });
         }
       }}
     >
