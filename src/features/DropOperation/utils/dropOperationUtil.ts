@@ -1,3 +1,4 @@
+import { basename } from 'path';
 import { nodeExtnum, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
 
 export const uint8ArrayToBase64 = (uint8Array: Uint8Array) => String.fromCharCode(...uint8Array);
@@ -26,7 +27,4 @@ export const getDirectoryImageFiles = async (path: string): Promise<[string[], s
 };
 
 export const getFileIndexFromFileName = (files: string[], fileName: string) =>
-  files.findIndex((file) => {
-    console.log({ file, fileName });
-    return file === fileName;
-  });
+  files.findIndex((file) => basename(file) === basename(fileName));
