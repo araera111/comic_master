@@ -1,7 +1,14 @@
 import { unzipSync } from 'fflate';
 import { includes, toPairs } from 'rambda';
 import { ReactNode } from 'react';
-import { nodeExtnum, nodeFsStats, nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../samples/node-api';
+import {
+  nodeDirname,
+  nodeExtnum,
+  nodeFsStats,
+  nodeReadFileSync,
+  nodeReadFileSync64,
+  readDirSync
+} from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
 import { enableExtnames, getExtName } from '../utils/dropOperationUtil';
 
@@ -19,14 +26,14 @@ export function BlobToURI(blob: Blob) {
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const setPageUrlList = useViewerStore((state) => state.setPageUrlList);
   const resetPage = useViewerStore((state) => state.resetPage);
+
   const directory = async (path: string) => {
     const files = await readDirSync(path);
-    const okExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
     const result = files
       .map((fileName) => `${path}/${fileName}`)
       .filter(async (filePath) => {
         const extName = await nodeExtnum(filePath);
-        return okExt.includes(extName);
+        return enableExtnames.includes(extName);
       });
     let arr: string[] = [];
     // eslint-disable-next-line no-restricted-syntax
@@ -70,6 +77,7 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
       onDrop={async (e) => {
         e.preventDefault();
         const { path, type } = e.dataTransfer.files[0];
+        console.log({ path, type });
         const stats = await nodeFsStats(path);
         const isDir = stats.isDirectory();
         if (isDir) {
@@ -78,6 +86,12 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         }
         if (type === 'application/x-zip-compressed' || type === 'application/zip') {
           zip(path);
+        }
+
+        if (type === 'image/jpeg') {
+          console.log('jpeg');
+          const directory = await nodeDirname(path);
+          console.log({ directory });
         }
       }}
     >
