@@ -12,6 +12,7 @@ const testStrings: string[] = [
 
 export const useViewerStore = create<ViewerState>()((set) => ({
   page: 0,
+  setPage: (num: number) => set(() => ({ page: num })),
   mode: 'spreadStartRight',
   changeMode: (nextMode: ViewMode) =>
     set((state) => ({ mode: nextMode, page: fixPage(state.page, state.pageUrlList.length, nextMode) })),
