@@ -10,6 +10,7 @@ import {
   readDirSync
 } from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
+import { fixPage } from '../../Viewer/utils/viewerUtil';
 import {
   enableExtnames,
   getDirectoryImageFiles,
@@ -35,7 +36,8 @@ export function BlobToURI(blob: Blob) {
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const setPageUrlList = useViewerStore((state) => state.setPageUrlList);
   const resetPage = useViewerStore((state) => state.resetPage);
-
+  const setPage = useViewerStore((state) => state.setPage);
+  const mode = useViewerStore((state) => state.mode);
   const directory = async (path: string) => {
     const [imageFiles] = await getDirectoryImageFiles(path);
     setPageUrlList(imageFiles);
@@ -88,7 +90,8 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
           const [imageFiles, fileNames] = await getDirectoryImageFiles(directory);
           setPageUrlList(imageFiles);
           const fileIndex = getFileIndexFromFileName(fileNames, path);
-          console.log({ fileIndex });
+          const fixedPage = fixPage(fileIndex, imageFiles.length, mode);
+          setPage(fixedPage);
         }
       }}
     >

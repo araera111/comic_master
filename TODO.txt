@@ -2,7 +2,6 @@ feat#7 jpg,pngのみ
 TODO:filter関数を使ってファイルの取得を行う
 
 feat#8 画像を1枚読み込んで、そのディレクトリとindexを読み込む
-TODO:現在のページのindexを取得する
 TODO:pageを変更、補正する（最後の1枚のときは1枚の前とか……）
 
 feat#9 設定の保存
