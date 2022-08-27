@@ -2,14 +2,15 @@
   "name": "comic_master",
   "productName": "Electron",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vite React Electron boilerplate.",
   "author": "KATO_Yuumin",
   "license": "MIT",
   "main": "dist/electron/main/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder"
+    "build": "tsc && vite build && electron-builder",
+    "publish": "tsc && vite build && electron-builder -p always"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
