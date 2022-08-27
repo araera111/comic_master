@@ -53,4 +53,13 @@ export const fixPage = (page: number, arrLength: number, mode: ViewMode): number
   return page;
 };
 
-export const movePage = (page: number, move: number, arrLength: number, mode: ViewMode): number => page + move;
+/*
+  7のときは2だけど(5を引けばいいけど), 18ページ進むときは？ 5で割った余り。
+  0を下回ったときは？ arrLength-1を
+*/
+export const movePage = (page: number, move: number, arrLength: number, mode: ViewMode): number => {
+  const nextPage = page + move;
+  if (nextPage < 0) return arrLength + nextPage;
+  if (arrLength - 1 <= nextPage) return (nextPage % (arrLength - 1)) - 1;
+  return nextPage;
+};

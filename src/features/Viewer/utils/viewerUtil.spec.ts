@@ -157,6 +157,7 @@ describe('fixPage', () => {
 });
 
 /* そもそも数字を入れたらそのとおりに移動すれば-とか+とか考えなくてよろしい */
+/* length5 [0, 1, 2, 3, 4] */
 describe('movePage', () => {
   it('case1: page:0, move:1, arrLength:5, mode:single -> 1', () => {
     const page = 0;
@@ -170,6 +171,51 @@ describe('movePage', () => {
   it('case2: page:1, move:1, arrLength:5, mode:single -> 2', () => {
     const page = 1;
     const move = 1;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 2;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+
+  it('case3: page:4, move:1, arrLength:5, mode:single -> 0', () => {
+    const page = 4;
+    const move = 1;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 0;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+
+  it('case4: page:4, move:2, arrLength:5, mode:single -> 1', () => {
+    const page = 4;
+    const move = 2;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 1;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+
+  it('case5: page:0, move:-1, arrLength:5, mode:single -> 1', () => {
+    const page = 0;
+    const move = -1;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 4;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+
+  it('case6: page:0, move:-2, arrLength:5, mode:single -> 1', () => {
+    const page = 0;
+    const move = -3;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 2;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+
+  it('case6: page:0, move:-2, arrLength:5, mode:single -> 1', () => {
+    const page = 0;
+    const move = -3;
     const arrLength = 5;
     const mode: ViewMode = 'single';
     const result = 2;
