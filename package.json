@@ -77,6 +77,13 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
+    },
+    "publish": {
+      "provider": "github"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/araera111/comic_master"
   }
 }
