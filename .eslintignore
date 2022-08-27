@@ -1,0 +1,6 @@
+node_modules/
+tailwind.config.*
+vite.config.*
+postcss.config.js
+dist/*
+electron-env.d.ts

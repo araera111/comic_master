@@ -1,0 +1,35 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
+  - airbnb
+  - airbnb-typescript
+  - prettier
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: latest
+  sourceType: module
+  project: ./tsconfig.json
+plugins:
+  - eslint-plugin-import
+  - react
+  - react-hooks
+  - '@typescript-eslint'
+ignorePatterns: ['.eslintrc.*', 'vite.config.*', '*/preload/index.ts', '*/main/index.ts']
+rules:
+  react-hooks/rules-of-hooks: error
+  react-hooks/exhaustive-deps: warn
+  react/react-in-jsx-scope: off
+  react/function-component-definition: [2, { 'namedComponents': 'arrow-function' }]
+  no-return-assign: 0
+  import/prefer-default-export: 0
+  '@typescript-eslint/naming-convention': 0
+  no-console: ['warn', { allow: ['debug'] }]
+  '@typescript-eslint/no-shadow': 0
+  no-underscore-dangle: 0
+  no-unused-vars: 0
+  '@typescript-eslint/no-unused-vars': [warn, varsIgnorePattern: '^_']
