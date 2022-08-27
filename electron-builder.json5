@@ -1,38 +1,35 @@
-**
- * @see https://www.electron.build/configuration/configuration
- */
 {
-  appId: "YourAppID",
-  productName: "YourAppName",
-  copyright: "Copyright © 2022 ${author}",
+  appId: 'YourAppID',
+  productName: 'Comic Master',
+  copyright: 'Copyright © 2022 ${author}',
   asar: true,
   directories: {
-    output: "release/${version}",
-    buildResources: "electron/resources",
+    output: 'release/${version}',
+    buildResources: 'electron/resources'
   },
-  files: ["dist"],
+  files: ['dist'],
   win: {
     target: [
       {
-        target: "nsis",
-        arch: ["x64"],
-      },
+        target: 'nsis',
+        arch: ['x64']
+      }
     ],
-    artifactName: "${productName}-Windows-${version}-Setup.${ext}",
+    artifactName: '${productName}-Windows-${version}-Setup.${ext}'
   },
   nsis: {
     oneClick: false,
     perMachine: false,
     allowToChangeInstallationDirectory: true,
-    deleteAppDataOnUninstall: false,
+    deleteAppDataOnUninstall: false
   },
   mac: {
-    target: ["dmg"],
-    artifactName: "${productName}-Mac-${version}-Installer.${ext}",
-    hardenedRuntime: true,
+    target: ['dmg'],
+    artifactName: '${productName}-Mac-${version}-Installer.${ext}',
+    hardenedRuntime: true
   },
   linux: {
-    target: ["AppImage"],
-    artifactName: "${productName}-Linux-${version}.${ext}",
-  },
+    target: ['AppImage'],
+    artifactName: '${productName}-Linux-${version}.${ext}'
+  }
 }

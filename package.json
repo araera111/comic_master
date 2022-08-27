@@ -58,31 +58,6 @@
     "vitest": "^0.22.1",
     "zustand": "^4.1.0"
   },
-  "build": {
-    "appId": "com.electron.comic_master",
-    "productName": "comic_master",
-    "directories": {
-      "output": "dist/electron"
-    },
-    "files": [
-      "dist/electron/**/*"
-    ],
-    "mac": {
-      "target": "dmg",
-      "publish": "github"
-    },
-    "win": {
-      "target": "nsis",
-      "publish": "github"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    },
-    "publish": {
-      "provider": "github"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/araera111/comic_master"

@@ -13,6 +13,7 @@ export default defineConfig({
   test: {
     globals: true
   },
+  base: './',
   resolve: {
     alias: {
       '@': path.join(__dirname, 'src'),
