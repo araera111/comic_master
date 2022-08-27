@@ -1,10 +1,10 @@
 {
-  "name": "electron-vite-react",
+  "name": "comic_master",
   "productName": "Electron",
   "private": true,
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Vite React Electron boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "author": "KATO_Yuumin",
   "license": "MIT",
   "main": "dist/electron/main/index.js",
   "scripts": {
@@ -56,5 +56,27 @@
     "ts-pattern": "^4.0.5",
     "vitest": "^0.22.1",
     "zustand": "^4.1.0"
+  },
+  "build": {
+    "appId": "com.electron.comic_master",
+    "productName": "comic_master",
+    "directories": {
+      "output": "dist/electron"
+    },
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "mac": {
+      "target": "dmg",
+      "publish": "github"
+    },
+    "win": {
+      "target": "nsis",
+      "publish": "github"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

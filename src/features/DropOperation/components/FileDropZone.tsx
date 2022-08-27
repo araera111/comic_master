@@ -1,14 +1,7 @@
 import { unzipSync } from 'fflate';
 import { includes, toPairs } from 'rambda';
 import { ReactNode } from 'react';
-import {
-  nodeDirname,
-  nodeExtnum,
-  nodeFsStats,
-  nodeReadFileSync,
-  nodeReadFileSync64,
-  readDirSync
-} from '../../../nodeUtil/node-api';
+import { nodeDirname, nodeFsStats, nodeReadFileSync } from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
 import { fixPage } from '../../Viewer/utils/viewerUtil';
 import {
