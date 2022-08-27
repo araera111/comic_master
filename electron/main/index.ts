@@ -31,7 +31,7 @@ const indexHtml = join(ROOT_PATH.dist, 'index.html');
 
 async function createWindow() {
   win = new BrowserWindow({
-    title: 'Main window',
+    title: 'Comic Master',
     width: 1000,
     height: 800,
     icon: join(ROOT_PATH.public, 'favicon.svg'),
