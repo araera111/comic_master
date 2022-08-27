@@ -52,3 +52,5 @@ export const fixPage = (page: number, arrLength: number, mode: ViewMode): number
   if (mode === 'spreadStartRight' && page + 1 === arrLength) return page - 1;
   return page;
 };
+
+export const movePage = (page: number, move: number, arrLength: number, mode: ViewMode): number => page + move;

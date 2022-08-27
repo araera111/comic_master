@@ -1,5 +1,5 @@
 import { ViewMode } from '../types/ViewerType';
-import { fixNextPage, fixPage, fixPrevPage, nextOnePage, prevOnePage } from './viewerUtil';
+import { fixNextPage, fixPage, fixPrevPage, movePage, nextOnePage, prevOnePage } from './viewerUtil';
 
 describe('fixNextPage', () => {
   it('case1, page2, length3, mode:single -> 0', () => {
@@ -153,5 +153,26 @@ describe('fixPage', () => {
     const mode: ViewMode = 'spreadStartRight';
     const result = 0;
     expect(fixPage(page, arrLength, mode)).toBe(result);
+  });
+});
+
+/* そもそも数字を入れたらそのとおりに移動すれば-とか+とか考えなくてよろしい */
+describe('movePage', () => {
+  it('case1: page:0, move:1, arrLength:5, mode:single -> 1', () => {
+    const page = 0;
+    const move = 1;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 1;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+
+  it('case2: page:1, move:1, arrLength:5, mode:single -> 2', () => {
+    const page = 1;
+    const move = 1;
+    const arrLength = 5;
+    const mode: ViewMode = 'single';
+    const result = 2;
+    expect(movePage(page, move, arrLength, mode)).toBe(result);
   });
 });
