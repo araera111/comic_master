@@ -11,4 +11,6 @@ export type ViewerState = {
   resetPage: () => void;
   pageUrlList: string[];
   setPageUrlList: (list: string[]) => void;
+  isShowRange: boolean;
+  changeShowRange: () => void;
 };

@@ -7,11 +7,13 @@ export const KeyOperation = () => {
   const prev = useViewerStore((state) => state.prevPage);
   const prevOne = useViewerStore((state) => state.prevOnePage);
   const changeMode = useViewerStore((state) => state.changeMode);
+  const changeShowRange = useViewerStore((state) => state.changeShowRange);
   const mode = useViewerStore((state) => state.mode);
   useKey(['ArrowRight'], () => prev());
   useKey(['ArrowLeft'], () => next());
   useKey(['z'], () => changeMode(mode === 'single' ? 'spreadStartRight' : 'single'));
   useKey(['a'], () => nextOne());
   useKey(['q'], () => prevOne());
+  useKey(['r'], () => changeShowRange());
   return null;
 };

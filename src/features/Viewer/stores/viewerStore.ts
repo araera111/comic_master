@@ -14,5 +14,7 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   nextOnePage: () => set((state) => ({ page: nextOnePage(state.page, state.pageUrlList.length, state.mode) })),
   prevOnePage: () => set((state) => ({ page: prevOnePage(state.page, state.pageUrlList.length, state.mode) })),
   resetPage: () => set(() => ({ page: 0 })),
-  setPageUrlList: (list: string[]) => set(() => ({ pageUrlList: list }))
+  setPageUrlList: (list: string[]) => set(() => ({ pageUrlList: list })),
+  isShowRange: true,
+  changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange }))
 }));
