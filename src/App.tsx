@@ -5,13 +5,13 @@ import { Viewer } from './features/Viewer/components/Viewer';
 import { WheelOperation } from './features/WheelOperation/components/WheelOperation';
 
 export const App = () => (
-  <div className="h-screen w-screen">
-    <PageRange />
-    <WheelOperation>
+  <WheelOperation>
+    <div className="h-screen w-screen">
+      <PageRange />
       <FileDropZone>
         <Viewer />
       </FileDropZone>
       <KeyOperation />
-    </WheelOperation>
-  </div>
+    </div>
+  </WheelOperation>
 );
