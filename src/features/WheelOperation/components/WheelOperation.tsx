@@ -13,14 +13,14 @@ export const WheelOperation = ({ children }: WheelOperationProps) => {
   const up = (e: WheelEvent) => {
     const { deltaY } = e;
     const moveRange = range(0, negate(deltaY / 100));
-    moveRange.forEach((_) => {
+    moveRange.forEach(() => {
       prev();
     });
   };
   const down = (e: WheelEvent) => {
     const { deltaY } = e;
     const moveRange = range(0, deltaY / 100);
-    moveRange.forEach((_) => {
+    moveRange.forEach(() => {
       next();
     });
   };
