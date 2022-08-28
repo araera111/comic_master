@@ -5,10 +5,11 @@ import { WheelOperation } from './features/WheelOperation/components/WheelOperat
 
 export const App = () => (
   <div className="h-screen w-screen">
-    <FileDropZone>
-      <Viewer />
-    </FileDropZone>
-    <KeyOperation />
-    <WheelOperation />
+    <WheelOperation>
+      <FileDropZone>
+        <Viewer />
+      </FileDropZone>
+      <KeyOperation />
+    </WheelOperation>
   </div>
 );
