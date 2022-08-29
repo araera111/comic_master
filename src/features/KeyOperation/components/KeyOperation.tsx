@@ -1,5 +1,6 @@
 import { useKey } from 'rooks';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
+import { toggleFullScreen } from '../utils/keyOperationUtil';
 
 export const KeyOperation = () => {
   const next = useViewerStore((state) => state.nextPage);
@@ -9,16 +10,7 @@ export const KeyOperation = () => {
   const changeMode = useViewerStore((state) => state.changeMode);
   const changeShowRange = useViewerStore((state) => state.changeShowRange);
   const mode = useViewerStore((state) => state.mode);
-  const toggleFullScreen = () => {
-    console.log('full screen');
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  };
+
   useKey(['ArrowRight'], () => prev());
   useKey(['ArrowLeft'], () => next());
   useKey(['z'], () => changeMode(mode === 'single' ? 'spreadStartRight' : 'single'));
