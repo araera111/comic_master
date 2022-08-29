@@ -4,6 +4,8 @@ import { useViewerStore } from '../stores/viewerStore';
 export const Thumbnail = () => {
   const mode = useViewerStore((state) => state.mode);
   const page = useViewerStore((state) => state.page);
+  const setPage = useViewerStore((state) => state.setPage);
+  const changeMode = useViewerStore((state) => state.changeMode);
   const pageUrlList = useViewerStore((state) => state.pageUrlList);
   console.log({ mode });
   return (
@@ -13,9 +15,18 @@ export const Thumbnail = () => {
       ) : (
         <div className="grid grid-cols-6 gap-4">
           {pageUrlList.map((url, index) => (
-            <div style={{ width: '15vmin', height: '15vmin' }} key={url}>
-              <img src={`${url}`} alt="" className="object-cover w-full h-full" />
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                changeMode('single');
+                setPage(index);
+              }}
+              key={url}
+            >
+              <div style={{ width: '15vmin', height: '15vmin' }}>
+                <img src={`${url}`} alt="" className="object-cover w-full h-full" />
+              </div>
+            </button>
           ))}
         </div>
       )}
