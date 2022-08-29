@@ -1,15 +1,8 @@
-import { unzipSync } from 'fflate';
-import { includes, toPairs } from 'rambda';
 import { ReactNode } from 'react';
-import { nodeDirname, nodeFsStats, nodeReadFileSync } from '../../../nodeUtil/node-api';
+import { nodeDirname, nodeFsStats } from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
 import { fixPage } from '../../Viewer/utils/viewerUtil';
-import {
-  enableExtnames,
-  getDirectoryImageFiles,
-  getExtName,
-  getFileIndexFromFileName
-} from '../utils/dropOperationUtil';
+import { getDirectoryImageFiles, getFileIndexFromFileName, unzip } from '../utils/dropOperationUtil';
 
 type FileDropZoneProps = {
   children: ReactNode;
@@ -17,13 +10,6 @@ type FileDropZoneProps = {
 
 interface FileAddPath extends File {
   path: string;
-}
-export function BlobToURI(blob: Blob) {
-  const fileReader = new FileReader();
-  // eslint-disable-next-line no-promise-executor-return
-  const promise = new Promise((resolve) => (fileReader.onload = () => resolve(fileReader.result)));
-  fileReader.readAsDataURL(blob);
-  return promise;
 }
 
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
@@ -37,27 +23,11 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
     resetPage();
   };
   const zip = async (path: string) => {
-    const data = await nodeReadFileSync(path);
-    const decompressed = await unzipSync(data);
-
-    /* jpg,pngなどでフィルタ */
-    const pairs = toPairs(decompressed).filter(([fileName]) => {
-      const extName = getExtName(fileName);
-      return includes(extName, enableExtnames);
-    });
-
-    let arr: string[] = [];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [_, iter] of pairs) {
-      const blob = new Blob([iter], { type: 'image/png' });
-      // eslint-disable-next-line no-await-in-loop
-      const d = (await BlobToURI(blob)) as string;
-      arr = [...arr, d];
-    }
-    setPageUrlList(arr);
-    /* ファイルを読み込んだらリセットする */
+    const result = await unzip(path);
+    setPageUrlList(result);
     resetPage();
   };
+
   return (
     <div
       onDragOver={(e) => {
