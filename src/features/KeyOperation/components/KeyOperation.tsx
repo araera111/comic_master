@@ -11,6 +11,13 @@ export const KeyOperation = () => {
   const mode = useViewerStore((state) => state.mode);
   const toggleFullScreen = () => {
     console.log('full screen');
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
   };
   useKey(['ArrowRight'], () => prev());
   useKey(['ArrowLeft'], () => next());
