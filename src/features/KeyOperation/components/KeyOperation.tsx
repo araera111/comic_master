@@ -18,5 +18,6 @@ export const KeyOperation = () => {
   useKey(['q'], () => prevOne());
   useKey(['r'], () => changeShowRange());
   useKey(['f'], () => toggleFullScreen());
+  useKey(['t'], () => changeMode('thumbnail'));
   return null;
 };
