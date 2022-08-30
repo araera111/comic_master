@@ -1,4 +1,8 @@
 export type ViewMode = 'single' | 'spreadStartRight' | 'thumbnail' | 'escape';
+export type PageItem = {
+  url: string;
+  fileName: string;
+};
 export type ViewerState = {
   page: number;
   setPage: (num: number) => void;
@@ -9,8 +13,10 @@ export type ViewerState = {
   nextPage: () => void;
   nextOnePage: () => void;
   resetPage: () => void;
-  pageUrlList: string[];
-  setPageUrlList: (list: string[]) => void;
+  pageItems: PageItem[];
+  setPageItems: (list: PageItem[]) => void;
   isShowRange: boolean;
+  isShowFileName: boolean;
   changeShowRange: () => void;
+  changeShowFileName: () => void;
 };

@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { ViewerState, ViewMode } from '../types/ViewerType';
+import { PageItem, ViewerState, ViewMode } from '../types/ViewerType';
 import { fixNextPage, fixPage, fixPrevPage, nextOnePage, prevOnePage } from '../utils/viewerUtil';
 
 export const useViewerStore = create<ViewerState>()((set) => ({
@@ -7,14 +7,16 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   setPage: (num: number) => set(() => ({ page: num })),
   mode: 'spreadStartRight',
   changeMode: (nextMode: ViewMode) =>
-    set((state) => ({ mode: nextMode, page: fixPage(state.page, state.pageUrlList.length, nextMode) })),
-  pageUrlList: [],
-  prevPage: () => set((state) => ({ page: fixPrevPage(state.page, state.pageUrlList.length, state.mode) })),
-  nextPage: () => set((state) => ({ page: fixNextPage(state.page, state.pageUrlList.length, state.mode) })),
-  nextOnePage: () => set((state) => ({ page: nextOnePage(state.page, state.pageUrlList.length, state.mode) })),
-  prevOnePage: () => set((state) => ({ page: prevOnePage(state.page, state.pageUrlList.length, state.mode) })),
+    set((state) => ({ mode: nextMode, page: fixPage(state.page, state.pageItems.length, nextMode) })),
+  pageItems: [],
+  prevPage: () => set((state) => ({ page: fixPrevPage(state.page, state.pageItems.length, state.mode) })),
+  nextPage: () => set((state) => ({ page: fixNextPage(state.page, state.pageItems.length, state.mode) })),
+  nextOnePage: () => set((state) => ({ page: nextOnePage(state.page, state.pageItems.length, state.mode) })),
+  prevOnePage: () => set((state) => ({ page: prevOnePage(state.page, state.pageItems.length, state.mode) })),
   resetPage: () => set(() => ({ page: 0 })),
-  setPageUrlList: (list: string[]) => set(() => ({ pageUrlList: list })),
+  setPageItems: (list: PageItem[]) => set(() => ({ pageItems: list })),
   isShowRange: true,
-  changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange }))
+  isShowFileName: true,
+  changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange })),
+  changeShowFileName: () => set((state) => ({ isShowFileName: !state.isShowFileName }))
 }));

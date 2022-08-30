@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { nodeDirname, nodeFsStats } from '../../../nodeUtil/node-api';
 import { useViewerStore } from '../../Viewer/stores/viewerStore';
 import { fixPage } from '../../Viewer/utils/viewerUtil';
-import { getDirectoryImageFiles, getFileIndexFromFileName, unzip } from '../utils/dropOperationUtil';
+import { getDirectoryImageFiles, getFileIndexFromFileName, mergeUrlFileName, unzip } from '../utils/dropOperationUtil';
 
 type FileDropZoneProps = {
   children: ReactNode;
@@ -13,18 +13,20 @@ interface FileAddPath extends File {
 }
 
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
-  const setPageUrlList = useViewerStore((state) => state.setPageUrlList);
+  const setPageItems = useViewerStore((state) => state.setPageItems);
   const resetPage = useViewerStore((state) => state.resetPage);
   const setPage = useViewerStore((state) => state.setPage);
   const mode = useViewerStore((state) => state.mode);
   const directory = async (path: string) => {
-    const [imageFiles] = await getDirectoryImageFiles(path);
-    setPageUrlList(imageFiles);
+    const [imageFiles, fileNames] = await getDirectoryImageFiles(path);
+    const pageItems = mergeUrlFileName(imageFiles, fileNames);
+    setPageItems(pageItems);
     resetPage();
   };
   const zip = async (path: string) => {
-    const result = await unzip(path);
-    setPageUrlList(result);
+    const [imageFiles, fileNames] = await unzip(path);
+    const pageItems = mergeUrlFileName(imageFiles, fileNames);
+    setPageItems(pageItems);
     resetPage();
   };
 
@@ -41,6 +43,7 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         const stats = await nodeFsStats(path);
         const isDir = stats.isDirectory();
         if (isDir) {
+          console.log({ isDir });
           directory(path);
           return;
         }
@@ -51,7 +54,8 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         if (type === 'image/jpeg') {
           const directory = await nodeDirname(path);
           const [imageFiles, fileNames] = await getDirectoryImageFiles(directory);
-          setPageUrlList(imageFiles);
+          const pageItems = mergeUrlFileName(imageFiles, fileNames);
+          setPageItems(pageItems);
           const fileIndex = getFileIndexFromFileName(fileNames, path);
           const fixedPage = fixPage(fileIndex, imageFiles.length, mode);
           setPage(fixedPage);

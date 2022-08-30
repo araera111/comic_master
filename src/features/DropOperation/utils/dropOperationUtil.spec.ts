@@ -1,4 +1,4 @@
-import { getExtName, getFileIndexFromFileName } from './dropOperationUtil';
+import { createStrObject, getExtName, getFileIndexFromFileName, mergeListObject } from './dropOperationUtil';
 
 describe('getExtName', () => {
   it('case1: aaa.jpg', () => {
@@ -25,5 +25,23 @@ describe('getFileIndexFromFileName', () => {
     const files = ['a', 'b', 'c'];
     const fileName = 'b';
     expect(getFileIndexFromFileName(files, fileName)).toBe(1);
+  });
+});
+
+describe('createStrObject', () => {
+  it('case1:', () => {
+    const urls = ['a', 'b'];
+    const key = 'url';
+    const result = [{ url: 'a' }, { url: 'b' }];
+    expect(createStrObject(urls, key)).toStrictEqual(result);
+  });
+});
+
+describe('mergeListObject', () => {
+  it('case1', () => {
+    const urlObj = [{ url: 'a' }];
+    const fileNameObj = [{ fileName: '1' }];
+    const result = [{ url: 'a', fileName: '1' }];
+    expect(mergeListObject(urlObj, 'url', fileNameObj, 'fileName')).toStrictEqual(result);
   });
 });
