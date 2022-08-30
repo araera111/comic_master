@@ -19,5 +19,6 @@ export const KeyOperation = () => {
   useKey(['r'], () => changeShowRange());
   useKey(['f'], () => toggleFullScreen());
   useKey(['t'], () => changeMode('thumbnail'));
+  useKey(['e'], () => changeMode(mode === 'escape' ? 'spreadStartRight' : 'escape'));
   return null;
 };
