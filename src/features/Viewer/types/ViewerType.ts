@@ -1,4 +1,4 @@
-export type ViewMode = 'single' | 'spreadStartRight' | 'thumbnail';
+export type ViewMode = 'single' | 'spreadStartRight' | 'thumbnail' | 'escape';
 export type ViewerState = {
   page: number;
   setPage: (num: number) => void;
