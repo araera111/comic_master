@@ -1,5 +1,7 @@
+import { unzipSync } from 'fflate';
 import { basename } from 'path';
-import { nodeExtnum, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
+import { includes, toPairs } from 'rambda';
+import { nodeExtnum, nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
 
 export const uint8ArrayToBase64 = (uint8Array: Uint8Array) => String.fromCharCode(...uint8Array);
 
@@ -28,3 +30,32 @@ export const getDirectoryImageFiles = async (path: string): Promise<[string[], s
 
 export const getFileIndexFromFileName = (files: string[], fileName: string) =>
   files.findIndex((file) => basename(file) === basename(fileName));
+
+export function BlobToURI(blob: Blob) {
+  const fileReader = new FileReader();
+  // eslint-disable-next-line no-promise-executor-return
+  const promise = new Promise((resolve) => (fileReader.onload = () => resolve(fileReader.result)));
+  fileReader.readAsDataURL(blob);
+  return promise;
+}
+
+export const unzip = async (path: string) => {
+  const data = await nodeReadFileSync(path);
+  const decompressed = await unzipSync(data);
+
+  /* jpg,pngなどでフィルタ */
+  const pairs = toPairs(decompressed).filter(([fileName]) => {
+    const extName = getExtName(fileName);
+    return includes(extName, enableExtnames);
+  });
+
+  let arr: string[] = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [_, iter] of pairs) {
+    const blob = new Blob([iter], { type: 'image/png' });
+    // eslint-disable-next-line no-await-in-loop
+    const d = (await BlobToURI(blob)) as string;
+    arr = [...arr, d];
+  }
+  return arr;
+};

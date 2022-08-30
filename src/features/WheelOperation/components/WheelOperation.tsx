@@ -13,8 +13,10 @@ type WheelOperationProps = {
 export const WheelOperation = ({ children }: WheelOperationProps) => {
   const next = useViewerStore((state) => state.nextPage);
   const prev = useViewerStore((state) => state.prevPage);
+  const mode = useViewerStore((state) => state.mode);
 
   const up = (e: WheelEvent) => {
+    if (mode === 'thumbnail') return;
     const { deltaY } = e;
     const moveRange = range(0, negate(deltaY / 100));
     moveRange.forEach(() => {
@@ -22,6 +24,7 @@ export const WheelOperation = ({ children }: WheelOperationProps) => {
     });
   };
   const down = (e: WheelEvent) => {
+    if (mode === 'thumbnail') return;
     const { deltaY } = e;
     const moveRange = range(0, deltaY / 100);
     moveRange.forEach(() => {
