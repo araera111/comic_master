@@ -18,7 +18,8 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const setPage = useViewerStore((state) => state.setPage);
   const mode = useViewerStore((state) => state.mode);
   const directory = async (path: string) => {
-    const [imageFiles] = await getDirectoryImageFiles(path);
+    const [imageFiles, t] = await getDirectoryImageFiles(path);
+    console.log({ imageFiles, t });
     setPageUrlList(imageFiles);
     resetPage();
   };
@@ -41,6 +42,7 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         const stats = await nodeFsStats(path);
         const isDir = stats.isDirectory();
         if (isDir) {
+          console.log({ isDir });
           directory(path);
           return;
         }
