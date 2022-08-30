@@ -16,5 +16,7 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   resetPage: () => set(() => ({ page: 0 })),
   setPageItems: (list: PageItem[]) => set(() => ({ pageItems: list })),
   isShowRange: true,
-  changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange }))
+  isShowFileName: true,
+  changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange })),
+  changeShowFileName: () => set((state) => ({ isShowFileName: !state.isShowFileName }))
 }));

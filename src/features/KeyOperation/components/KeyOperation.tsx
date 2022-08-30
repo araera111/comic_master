@@ -9,6 +9,7 @@ export const KeyOperation = () => {
   const prevOne = useViewerStore((state) => state.prevOnePage);
   const changeMode = useViewerStore((state) => state.changeMode);
   const changeShowRange = useViewerStore((state) => state.changeShowRange);
+  const changeShowFileName = useViewerStore((state) => state.changeShowFileName);
   const mode = useViewerStore((state) => state.mode);
 
   useKey(['ArrowRight'], () => prev());
@@ -20,5 +21,6 @@ export const KeyOperation = () => {
   useKey(['f'], () => toggleFullScreen());
   useKey(['t'], () => changeMode('thumbnail'));
   useKey(['e'], () => changeMode(mode === 'escape' ? 'spreadStartRight' : 'escape'));
+  useKey(['n'], () => changeShowFileName());
   return null;
 };

@@ -16,5 +16,7 @@ export type ViewerState = {
   pageItems: PageItem[];
   setPageItems: (list: PageItem[]) => void;
   isShowRange: boolean;
+  isShowFileName: boolean;
   changeShowRange: () => void;
+  changeShowFileName: () => void;
 };
