@@ -2,6 +2,7 @@ import { unzipSync } from 'fflate';
 import { basename } from 'path';
 import { includes, toPairs } from 'rambda';
 import { nodeExtnum, nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
+import { PageItem } from '../../Viewer/types/ViewerType';
 
 export const uint8ArrayToBase64 = (uint8Array: Uint8Array) => String.fromCharCode(...uint8Array);
 
@@ -39,7 +40,7 @@ export function BlobToURI(blob: Blob) {
   return promise;
 }
 
-export const unzip = async (path: string) => {
+export const unzip = async (path: string): Promise<[string[], string[]]> => {
   const data = await nodeReadFileSync(path);
   const decompressed = await unzipSync(data);
 
@@ -49,13 +50,30 @@ export const unzip = async (path: string) => {
     return includes(extName, enableExtnames);
   });
 
-  let arr: string[] = [];
+  let urls: string[] = [];
+  let fileNames: string[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const [_, iter] of pairs) {
     const blob = new Blob([iter], { type: 'image/png' });
     // eslint-disable-next-line no-await-in-loop
-    const d = (await BlobToURI(blob)) as string;
-    arr = [...arr, d];
+    const url = (await BlobToURI(blob)) as string;
+    urls = [...urls, url];
+    fileNames = [...fileNames, _];
   }
-  return arr;
+  return [urls, fileNames];
+};
+
+export const createStrObject = (strList: string[], key: string) =>
+  strList.map((str) => ({
+    [key]: str
+  }));
+
+export const mergeListObject = (leftList: any[], leftKey: string, rightList: any[], rightKey: string) =>
+  leftList.map((left, index) => ({ [leftKey]: left[leftKey], [rightKey]: rightList[index][rightKey] }));
+
+export const mergeUrlFileName = (urlList: string[], fileNameList: string[]): PageItem[] => {
+  const urlObjects = createStrObject(urlList, 'url');
+  const fileNameObjects = createStrObject(fileNameList, 'fileName');
+  const result = mergeListObject(urlObjects, 'url', fileNameObjects, 'fileName');
+  return result as PageItem[];
 };

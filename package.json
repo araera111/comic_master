@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
-    "publish": "tsc && vite build && electron-builder -p always"
+    "publish": "tsc && vite build && electron-builder -p always",
+    "tc": "tsc --noEmit --watch"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
