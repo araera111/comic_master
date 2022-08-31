@@ -1,5 +1,6 @@
 import { isEmpty } from 'rambda';
 import { useViewerStore } from '../stores/viewerStore';
+import { getThumbnailIndex } from '../utils/viewerUtil';
 
 export const Thumbnail = () => {
   const { setPage, changeMode, pageItems, thumbnailPageList, thumbnailPage } = useViewerStore((state) => state);
@@ -9,12 +10,12 @@ export const Thumbnail = () => {
         <div className="h-screen w-screen">&nbsp;</div>
       ) : (
         <div className="grid grid-cols-6 gap-4">
-          {thumbnailPageList[thumbnailPage].map(({ url }, index) => (
+          {thumbnailPageList[thumbnailPage].map(({ url, fileName }) => (
             <button
               type="button"
               onClick={() => {
                 changeMode('single');
-                setPage(index);
+                setPage(getThumbnailIndex(fileName, pageItems));
               }}
               key={url}
             >

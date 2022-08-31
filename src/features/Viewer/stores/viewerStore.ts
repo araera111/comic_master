@@ -2,6 +2,9 @@ import create from 'zustand';
 import { PageItem, ViewerState, ViewMode } from '../types/ViewerType';
 import { fixNextPage, fixPage, fixPrevPage, nextOnePage, prevOnePage } from '../utils/viewerUtil';
 
+export const prevOne = prevOnePage;
+export const nextOne = nextOnePage;
+
 export const useViewerStore = create<ViewerState>()((set) => ({
   page: 0,
   setPage: (num: number) => set(() => ({ page: num })),
