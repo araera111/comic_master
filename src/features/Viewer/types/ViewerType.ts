@@ -22,7 +22,7 @@ export type ViewerState = {
   isLoading: boolean;
   changeLoading: (bool: boolean) => void;
   thumbnailPage: number;
-  thumbnailPageList: string[];
+  thumbnailPageList: PageItem[][];
   setThumbnailpage: (num: number) => void;
-  setThumbnailPageList: (pages: string[]) => void;
+  setThumbnailPageList: (pages: PageItem[][]) => void;
 };

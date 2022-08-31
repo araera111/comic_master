@@ -24,5 +24,5 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   thumbnailPage: 0,
   thumbnailPageList: [],
   setThumbnailpage: (num: number) => set(() => ({ thumbnailPage: num })),
-  setThumbnailPageList: (pages: string[]) => set(() => ({ thumbnailPageList: pages }))
+  setThumbnailPageList: (pages: PageItem[][]) => set(() => ({ thumbnailPageList: pages }))
 }));
