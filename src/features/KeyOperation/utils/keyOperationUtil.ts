@@ -1,4 +1,4 @@
-import { aperture } from 'ramda';
+import { splitEvery } from 'rambda';
 import { PageItem, ViewMode } from '../../Viewer/types/ViewerType';
 
 export const toggleFullScreen = () => {
@@ -14,7 +14,7 @@ export const thumbnailMode = (
   setThumbnailPageList: (list: PageItem[][]) => void,
   pages: PageItem[]
 ) => {
-  const thumbnailpageList = aperture(30, pages);
+  const thumbnailpageList = splitEvery(30, pages);
   setThumbnailPageList(thumbnailpageList);
   changeMode('thumbnail');
 };
