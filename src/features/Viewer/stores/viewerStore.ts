@@ -20,5 +20,9 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   isLoading: false,
   changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange })),
   changeShowFileName: () => set((state) => ({ isShowFileName: !state.isShowFileName })),
-  changeLoading: (bool: boolean) => set((state) => ({ isLoading: bool }))
+  changeLoading: (bool: boolean) => set(() => ({ isLoading: bool })),
+  thumbnailPage: 0,
+  thumbnailPageList: [],
+  setThumbnailpage: (num: number) => set(() => ({ thumbnailPage: num })),
+  setThumbnailPageList: (pages: string[]) => set(() => ({ thumbnailPageList: pages }))
 }));

@@ -21,4 +21,8 @@ export type ViewerState = {
   changeShowFileName: () => void;
   isLoading: boolean;
   changeLoading: (bool: boolean) => void;
+  thumbnailPage: number;
+  thumbnailPageList: string[];
+  setThumbnailpage: (num: number) => void;
+  setThumbnailPageList: (pages: string[]) => void;
 };

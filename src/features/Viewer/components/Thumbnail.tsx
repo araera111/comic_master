@@ -2,9 +2,7 @@ import { isEmpty } from 'rambda';
 import { useViewerStore } from '../stores/viewerStore';
 
 export const Thumbnail = () => {
-  const setPage = useViewerStore((state) => state.setPage);
-  const changeMode = useViewerStore((state) => state.changeMode);
-  const pageItems = useViewerStore((state) => state.pageItems);
+  const { setPage, changeMode, pageItems } = useViewerStore((state) => state);
   return (
     <div className="mx-auto bg-slate-800 text-white overflow-hidden">
       {isEmpty(pageItems) ? (
