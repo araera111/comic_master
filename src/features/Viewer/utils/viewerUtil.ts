@@ -1,3 +1,4 @@
+import { includes } from 'rambda';
 import { PageItem, ViewMode } from '../types/ViewerType';
 
 export const getPageUrlString = (pageNumber: number): string => pageNumber.toString().padStart(4, '0');
@@ -66,3 +67,11 @@ export const movePage = (page: number, move: number, arrLength: number, mode: Vi
 
 export const getThumbnailIndex = (fileName: string, pageItems: PageItem[]): number =>
   pageItems.findIndex((i) => i.fileName === fileName);
+
+export const getThumbnailPage = (fileName: string, ThumbnailPages: PageItem[][]): number =>
+  ThumbnailPages.findIndex((pages) =>
+    includes(
+      fileName,
+      pages.map((i) => i.fileName)
+    )
+  );
