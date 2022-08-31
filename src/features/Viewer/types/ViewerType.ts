@@ -20,5 +20,5 @@ export type ViewerState = {
   changeShowRange: () => void;
   changeShowFileName: () => void;
   isLoading: boolean;
-  toggleLoading: () => void;
+  changeLoading: (bool: boolean) => void;
 };

@@ -20,5 +20,5 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   isLoading: false,
   changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange })),
   changeShowFileName: () => set((state) => ({ isShowFileName: !state.isShowFileName })),
-  toggleLoading: () => set((state) => ({ isLoading: !state.isLoading }))
+  changeLoading: (bool: boolean) => set((state) => ({ isLoading: bool }))
 }));

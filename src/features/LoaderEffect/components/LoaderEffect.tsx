@@ -1,8 +1,9 @@
 import { RotatingSquare } from 'react-loader-spinner';
+import { useViewerStore } from '../../Viewer/stores/viewerStore';
 
 export const LoadingEffect = () => {
-  const a = '';
-  return (
+  const { isLoading } = useViewerStore((state) => state);
+  return isLoading ? (
     <div className="z-50 bg-slate-800 absolute inset-0 flex items-center justify-center">
       <div className="">
         <RotatingSquare
@@ -17,5 +18,5 @@ export const LoadingEffect = () => {
         />
       </div>
     </div>
-  );
+  ) : null;
 };

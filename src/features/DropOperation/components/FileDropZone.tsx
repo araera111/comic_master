@@ -13,10 +13,7 @@ interface FileAddPath extends File {
 }
 
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
-  const setPageItems = useViewerStore((state) => state.setPageItems);
-  const resetPage = useViewerStore((state) => state.resetPage);
-  const setPage = useViewerStore((state) => state.setPage);
-  const mode = useViewerStore((state) => state.mode);
+  const { setPageItems, resetPage, setPage, mode, changeLoading } = useViewerStore((state) => state);
   const directory = async (path: string) => {
     const [imageFiles, fileNames] = await getDirectoryImageFiles(path);
     const pageItems = mergeUrlFileName(imageFiles, fileNames);
@@ -24,10 +21,12 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
     resetPage();
   };
   const zip = async (path: string) => {
+    changeLoading(true);
     const [imageFiles, fileNames] = await unzip(path);
     const pageItems = mergeUrlFileName(imageFiles, fileNames);
     setPageItems(pageItems);
     resetPage();
+    changeLoading(false);
   };
 
   return (
@@ -43,8 +42,9 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         const stats = await nodeFsStats(path);
         const isDir = stats.isDirectory();
         if (isDir) {
-          console.log({ isDir });
+          changeLoading(true);
           directory(path);
+          changeLoading(false);
           return;
         }
         if (type === 'application/x-zip-compressed' || type === 'application/zip') {
@@ -52,6 +52,7 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         }
 
         if (type === 'image/jpeg') {
+          changeLoading(true);
           const directory = await nodeDirname(path);
           const [imageFiles, fileNames] = await getDirectoryImageFiles(directory);
           const pageItems = mergeUrlFileName(imageFiles, fileNames);
@@ -59,6 +60,7 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
           const fileIndex = getFileIndexFromFileName(fileNames, path);
           const fixedPage = fixPage(fileIndex, imageFiles.length, mode);
           setPage(fixedPage);
+          changeLoading(false);
         }
       }}
     >
