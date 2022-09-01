@@ -75,3 +75,5 @@ export const getThumbnailPage = (fileName: string, ThumbnailPages: PageItem[][])
       pages.map((i) => i.fileName)
     )
   );
+
+export const getFileName = (pageItems: PageItem[], page: number): string => pageItems[page].fileName;

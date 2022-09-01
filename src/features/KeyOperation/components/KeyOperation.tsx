@@ -16,7 +16,8 @@ export const KeyOperation = () => {
     prevPage,
     nextPage,
     nextOnePage,
-    prevOnePage
+    prevOnePage,
+    page
   } = useViewerStore((state) => state);
 
   useKey(['ArrowRight'], () => {
@@ -38,7 +39,7 @@ export const KeyOperation = () => {
   useKey(['q'], () => prevOnePage());
   useKey(['r'], () => changeShowRange());
   useKey(['f'], () => toggleFullScreen());
-  useKey(['t'], () => thumbnailMode(changeMode, setThumbnailPageList, pageItems));
+  useKey(['t'], () => thumbnailMode(changeMode, setThumbnailPageList, pageItems, page, setThumbnailpage));
   useKey(['e'], () => changeMode(mode === 'escape' ? 'spreadStartRight' : 'escape'));
   useKey(['n'], () => changeShowFileName());
   return null;
