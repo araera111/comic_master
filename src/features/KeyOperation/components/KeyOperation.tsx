@@ -1,25 +1,45 @@
 import { useKey } from 'rooks';
-import { useViewerStore } from '../../Viewer/stores/viewerStore';
-import { toggleFullScreen } from '../utils/keyOperationUtil';
+import { nextOne, prevOne, useViewerStore } from '../../Viewer/stores/viewerStore';
+import { thumbnailMode, toggleFullScreen } from '../utils/keyOperationUtil';
 
 export const KeyOperation = () => {
-  const next = useViewerStore((state) => state.nextPage);
-  const nextOne = useViewerStore((state) => state.nextOnePage);
-  const prev = useViewerStore((state) => state.prevPage);
-  const prevOne = useViewerStore((state) => state.prevOnePage);
-  const changeMode = useViewerStore((state) => state.changeMode);
-  const changeShowRange = useViewerStore((state) => state.changeShowRange);
-  const changeShowFileName = useViewerStore((state) => state.changeShowFileName);
-  const mode = useViewerStore((state) => state.mode);
+  const {
+    mode,
+    setThumbnailPageList,
+    thumbnailPage,
+    thumbnailPageList,
+    setThumbnailpage,
+    pageItems,
+    changeShowFileName,
+    changeShowRange,
+    changeMode,
+    prevPage,
+    nextPage,
+    nextOnePage,
+    prevOnePage,
+    page
+  } = useViewerStore((state) => state);
 
-  useKey(['ArrowRight'], () => prev());
-  useKey(['ArrowLeft'], () => next());
+  useKey(['ArrowRight'], () => {
+    if (mode === 'thumbnail') {
+      setThumbnailpage(nextOne(thumbnailPage, thumbnailPageList.length, 'thumbnail'));
+      return;
+    }
+    prevPage();
+  });
+  useKey(['ArrowLeft'], () => {
+    if (mode === 'thumbnail') {
+      setThumbnailpage(prevOne(thumbnailPage, thumbnailPageList.length, 'thumbnail'));
+      return;
+    }
+    nextPage();
+  });
   useKey(['z'], () => changeMode(mode === 'single' ? 'spreadStartRight' : 'single'));
-  useKey(['a'], () => nextOne());
-  useKey(['q'], () => prevOne());
+  useKey(['a'], () => nextOnePage());
+  useKey(['q'], () => prevOnePage());
   useKey(['r'], () => changeShowRange());
   useKey(['f'], () => toggleFullScreen());
-  useKey(['t'], () => changeMode('thumbnail'));
+  useKey(['t'], () => thumbnailMode(changeMode, setThumbnailPageList, pageItems, page, setThumbnailpage));
   useKey(['e'], () => changeMode(mode === 'escape' ? 'spreadStartRight' : 'escape'));
   useKey(['n'], () => changeShowFileName());
   return null;

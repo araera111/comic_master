@@ -1,5 +1,5 @@
-import { ViewMode } from '../types/ViewerType';
-import { fixNextPage, fixPage, fixPrevPage, movePage, nextOnePage, prevOnePage } from './viewerUtil';
+import { PageItem, ViewMode } from '../types/ViewerType';
+import { fixNextPage, fixPage, fixPrevPage, getThumbnailPage, movePage, nextOnePage, prevOnePage } from './viewerUtil';
 
 describe('fixNextPage', () => {
   it('case1, page2, length3, mode:single -> 0', () => {
@@ -220,5 +220,19 @@ describe('movePage', () => {
     const mode: ViewMode = 'single';
     const result = 2;
     expect(movePage(page, move, arrLength, mode)).toBe(result);
+  });
+});
+
+describe('getThumbnailPage', () => {
+  it('case1', () => {
+    const fileName = 'a';
+    const ThumbnailPages: PageItem[][] = [[], [{ fileName: 'a', url: 'http' }]];
+    expect(getThumbnailPage(fileName, ThumbnailPages)).toBe(1);
+  });
+
+  it('case2', () => {
+    const fileName = 'c';
+    const ThumbnailPages: PageItem[][] = [[], [{ fileName: 'a', url: 'http' }], [{ fileName: 'c', url: 'Url' }]];
+    expect(getThumbnailPage(fileName, ThumbnailPages)).toBe(2);
   });
 });

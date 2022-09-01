@@ -2,6 +2,9 @@ import create from 'zustand';
 import { PageItem, ViewerState, ViewMode } from '../types/ViewerType';
 import { fixNextPage, fixPage, fixPrevPage, nextOnePage, prevOnePage } from '../utils/viewerUtil';
 
+export const prevOne = prevOnePage;
+export const nextOne = nextOnePage;
+
 export const useViewerStore = create<ViewerState>()((set) => ({
   page: 0,
   setPage: (num: number) => set(() => ({ page: num })),
@@ -17,6 +20,12 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   setPageItems: (list: PageItem[]) => set(() => ({ pageItems: list })),
   isShowRange: true,
   isShowFileName: true,
+  isLoading: false,
   changeShowRange: () => set((state) => ({ isShowRange: !state.isShowRange })),
-  changeShowFileName: () => set((state) => ({ isShowFileName: !state.isShowFileName }))
+  changeShowFileName: () => set((state) => ({ isShowFileName: !state.isShowFileName })),
+  changeLoading: (bool: boolean) => set(() => ({ isLoading: bool })),
+  thumbnailPage: 0,
+  thumbnailPageList: [],
+  setThumbnailpage: (num: number) => set(() => ({ thumbnailPage: num })),
+  setThumbnailPageList: (pages: PageItem[][]) => set(() => ({ thumbnailPageList: pages }))
 }));
