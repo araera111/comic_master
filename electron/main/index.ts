@@ -88,7 +88,6 @@ app.on('activate', () => {
 
 // new window example arg: new windows url
 ipcMain.handle('open-win', (event, arg) => {
-  console.log({ event, arg });
   const childWindow = new BrowserWindow({
     webPreferences: {
       preload
