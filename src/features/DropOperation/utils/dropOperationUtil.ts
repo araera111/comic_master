@@ -3,7 +3,7 @@ import { unzipSync } from 'fflate';
 import { statSync } from 'fs';
 import { basename } from 'path';
 import { includes, toPairs } from 'rambda';
-import { nodeExtnum, nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
+import { nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
 import { PageItem } from '../../Viewer/types/ViewerType';
 
 export const uint8ArrayToBase64 = (uint8Array: Uint8Array) => String.fromCharCode(...uint8Array);
@@ -12,14 +12,19 @@ export const enableExtnames = ['jpg', 'jpeg', 'png'];
 
 export const getExtName = (path: string): string => path.split('.').pop() ?? '';
 
+export const enableFileFilter = (files: string[], enableExtnames: string[]): string[] =>
+  files.filter((file) => {
+    const extName = getExtName(file);
+    return enableExtnames.includes(extName);
+  });
+
 export const getDirectoryImageFiles = async (path: string): Promise<[string[], string[], Date[]]> => {
   const files = await readDirSync(path);
-  const result = files
-    .map((fileName) => `${path}/${fileName}`)
-    .filter(async (filePath) => {
-      const extName = await nodeExtnum(filePath);
-      return enableExtnames.includes(extName);
-    });
+  const result = enableFileFilter(
+    files.map((fileName) => `${path}/${fileName}`),
+    enableExtnames
+  );
+
   let arr: string[] = [];
   let mtimes: Date[] = [];
   // eslint-disable-next-line no-restricted-syntax
