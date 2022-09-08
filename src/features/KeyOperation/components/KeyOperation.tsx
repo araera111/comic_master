@@ -17,7 +17,8 @@ export const KeyOperation = () => {
     nextPage,
     nextOnePage,
     prevOnePage,
-    page
+    page,
+    changeSort
   } = useViewerStore((state) => state);
 
   useKey(['ArrowRight'], () => {
@@ -42,5 +43,6 @@ export const KeyOperation = () => {
   useKey(['t'], () => thumbnailMode(changeMode, setThumbnailPageList, pageItems, page, setThumbnailpage));
   useKey(['e'], () => changeMode(mode === 'escape' ? 'spreadStartRight' : 'escape'));
   useKey(['n'], () => changeShowFileName());
+  useKey(['s'], () => changeSort());
   return null;
 };

@@ -1,4 +1,11 @@
-import { createStrObject, getExtName, getFileIndexFromFileName, mergeListObject } from './dropOperationUtil';
+import dayjs from 'dayjs';
+import {
+  createStrObject,
+  enableFileFilter,
+  getExtName,
+  getFileIndexFromFileName,
+  mergeListObject
+} from './dropOperationUtil';
 
 describe('getExtName', () => {
   it('case1: aaa.jpg', () => {
@@ -41,7 +48,24 @@ describe('mergeListObject', () => {
   it('case1', () => {
     const urlObj = [{ url: 'a' }];
     const fileNameObj = [{ fileName: '1' }];
-    const result = [{ url: 'a', fileName: '1' }];
-    expect(mergeListObject(urlObj, 'url', fileNameObj, 'fileName')).toStrictEqual(result);
+    const mtimeObj = [{ mtime: dayjs('2022-01-01 00:00:00').toDate() }];
+    const result = [{ url: 'a', fileName: '1', mtime: dayjs('2022-01-01 00:00:00').toDate() }];
+    expect(mergeListObject(urlObj, 'url', fileNameObj, 'fileName', mtimeObj, 'mtime')).toStrictEqual(result);
+  });
+});
+
+describe('enableFileFilter', () => {
+  it('case1: jpg', () => {
+    const fileName = ['aaa.jpg'];
+    const enableExtnames = ['jpg', 'jpeg', 'png'];
+    const result = ['aaa.jpg'];
+    expect(enableFileFilter(fileName, enableExtnames)).toStrictEqual(result);
+  });
+
+  it('case2: jpg, txt', () => {
+    const fileName = ['aaa.jpg', 'bbb.txt'];
+    const enableExtnames = ['jpg', 'jpeg', 'png'];
+    const result = ['aaa.jpg'];
+    expect(enableFileFilter(fileName, enableExtnames)).toStrictEqual(result);
   });
 });

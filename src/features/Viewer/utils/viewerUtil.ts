@@ -1,5 +1,6 @@
-import { includes } from 'rambda';
-import { PageItem, ViewMode } from '../types/ViewerType';
+import { includes, prop, sortBy } from 'rambda';
+import { match } from 'ts-pattern';
+import { PageItem, SortMode, ViewMode } from '../types/ViewerType';
 
 export const getPageUrlString = (pageNumber: number): string => pageNumber.toString().padStart(4, '0');
 export const fixNextPage = (page: number, arrLength: number, mode: ViewMode): number => {
@@ -58,7 +59,7 @@ export const fixPage = (page: number, arrLength: number, mode: ViewMode): number
   7のときは2だけど(5を引けばいいけど), 18ページ進むときは？ 5で割った余り。
   0を下回ったときは？ arrLength-1を
 */
-export const movePage = (page: number, move: number, arrLength: number, mode: ViewMode): number => {
+export const movePage = (page: number, move: number, arrLength: number): number => {
   const nextPage = page + move;
   if (nextPage < 0) return arrLength + nextPage;
   if (arrLength - 1 <= nextPage) return (nextPage % (arrLength - 1)) - 1;
@@ -77,3 +78,20 @@ export const getThumbnailPage = (fileName: string, ThumbnailPages: PageItem[][])
   );
 
 export const getFileName = (pageItems: PageItem[], page: number): string => pageItems[page].fileName;
+
+export const getNextSortMode = (nowSortMode: SortMode) =>
+  match(nowSortMode)
+    .with('fileName', () => 'timestamp' as SortMode)
+    .with('timestamp', () => 'timestampdown' as SortMode)
+    .with('timestampdown', () => 'fileName' as SortMode)
+    .exhaustive();
+
+export const sortByTimestamp = (pageItems: PageItem[]): PageItem[] => sortBy(prop('mtime'))(pageItems);
+export const sortByFileName = (pageItems: PageItem[]): PageItem[] => sortBy(prop('fileName'))(pageItems);
+
+export const setSort = (pageItems: PageItem[], sortMode: SortMode): PageItem[] =>
+  match(sortMode)
+    .with('fileName', () => sortByFileName(pageItems))
+    .with('timestamp', () => sortByTimestamp(pageItems))
+    .with('timestampdown', () => sortByTimestamp(pageItems).reverse())
+    .exhaustive();

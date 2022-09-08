@@ -15,15 +15,15 @@ interface FileAddPath extends File {
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const { setPageItems, resetPage, setPage, mode, changeLoading } = useViewerStore((state) => state);
   const directory = async (path: string) => {
-    const [imageFiles, fileNames] = await getDirectoryImageFiles(path);
-    const pageItems = mergeUrlFileName(imageFiles, fileNames);
+    const [imageFiles, fileNames, stats] = await getDirectoryImageFiles(path);
+    const pageItems = mergeUrlFileName(imageFiles, fileNames, stats);
     setPageItems(pageItems);
     resetPage();
   };
   const zip = async (path: string) => {
     changeLoading(true);
-    const [imageFiles, fileNames] = await unzip(path);
-    const pageItems = mergeUrlFileName(imageFiles, fileNames);
+    const [imageFiles, fileNames, mtimes] = await unzip(path);
+    const pageItems = mergeUrlFileName(imageFiles, fileNames, mtimes);
     setPageItems(pageItems);
     resetPage();
     changeLoading(false);
@@ -54,8 +54,8 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
         if (type === 'image/jpeg') {
           changeLoading(true);
           const directory = await nodeDirname(path);
-          const [imageFiles, fileNames] = await getDirectoryImageFiles(directory);
-          const pageItems = mergeUrlFileName(imageFiles, fileNames);
+          const [imageFiles, fileNames, mtimes] = await getDirectoryImageFiles(directory);
+          const pageItems = mergeUrlFileName(imageFiles, fileNames, mtimes);
           setPageItems(pageItems);
           const fileIndex = getFileIndexFromFileName(fileNames, path);
           const fixedPage = fixPage(fileIndex, imageFiles.length, mode);
