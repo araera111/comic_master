@@ -3,6 +3,7 @@ export type ViewMode = 'single' | 'spreadStartRight' | 'thumbnail' | 'escape';
 export type PageItem = {
   url: string;
   fileName: string;
+  mtime: string;
 };
 
 export type ViewerState = {
