@@ -82,13 +82,16 @@ export const getFileName = (pageItems: PageItem[], page: number): string => page
 export const getNextSortMode = (nowSortMode: SortMode) =>
   match(nowSortMode)
     .with('fileName', () => 'timestamp' as SortMode)
-    .with('timestamp', () => 'fileName' as SortMode)
+    .with('timestamp', () => 'timestampdown' as SortMode)
+    .with('timestampdown', () => 'fileName' as SortMode)
     .exhaustive();
 
 export const sortByTimestamp = (pageItems: PageItem[]): PageItem[] => sortBy(prop('mtime'))(pageItems);
+export const sortByFileName = (pageItems: PageItem[]): PageItem[] => sortBy(prop('fileName'))(pageItems);
 
 export const setSort = (pageItems: PageItem[], sortMode: SortMode): PageItem[] =>
   match(sortMode)
-    .with('fileName', () => pageItems.sort())
+    .with('fileName', () => sortByFileName(pageItems))
     .with('timestamp', () => sortByTimestamp(pageItems))
+    .with('timestampdown', () => sortByTimestamp(pageItems).reverse())
     .exhaustive();

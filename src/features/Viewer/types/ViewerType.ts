@@ -6,7 +6,7 @@ export type PageItem = {
   mtime: Date;
 };
 
-export type SortMode = 'timestamp' | 'fileName';
+export type SortMode = 'timestamp' | 'fileName' | 'timestampdown';
 
 export type ViewerState = {
   page: number;
