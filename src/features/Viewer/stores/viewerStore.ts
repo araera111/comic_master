@@ -25,7 +25,7 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   nextOnePage: () => set((state) => ({ page: nextOnePage(state.page, state.pageItems.length, state.mode) })),
   prevOnePage: () => set((state) => ({ page: prevOnePage(state.page, state.pageItems.length, state.mode) })),
   resetPage: () => set(() => ({ page: 0 })),
-  setPageItems: (list: PageItem[]) => set(() => ({ pageItems: list })),
+  setPageItems: (list: PageItem[]) => set((state) => ({ pageItems: setSort(list, state.sortMode) })),
   isShowRange: true,
   isShowFileName: true,
   isLoading: false,

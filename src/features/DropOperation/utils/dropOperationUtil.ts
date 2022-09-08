@@ -24,7 +24,6 @@ export const getDirectoryImageFiles = async (path: string): Promise<[string[], s
     files.map((fileName) => `${path}/${fileName}`),
     enableExtnames
   );
-
   let arr: string[] = [];
   let mtimes: Date[] = [];
   // eslint-disable-next-line no-restricted-syntax
@@ -37,7 +36,7 @@ export const getDirectoryImageFiles = async (path: string): Promise<[string[], s
     arr = [...arr, url];
     mtimes = [...mtimes, stat];
   }
-  return [arr, files, mtimes];
+  return [arr, enableFileFilter(files, enableExtnames), mtimes];
 };
 
 export const getFileIndexFromFileName = (files: string[], fileName: string) =>
