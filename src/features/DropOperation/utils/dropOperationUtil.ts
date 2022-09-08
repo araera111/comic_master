@@ -1,4 +1,5 @@
 import { unzipSync } from 'fflate';
+import { Stats, statSync } from 'fs';
 import { basename } from 'path';
 import { includes, toPairs } from 'rambda';
 import { nodeExtnum, nodeReadFileSync, nodeReadFileSync64, readDirSync } from '../../../nodeUtil/node-api';
@@ -10,8 +11,9 @@ export const enableExtnames = ['jpg', 'jpeg', 'png'];
 
 export const getExtName = (path: string): string => path.split('.').pop() ?? '';
 
-export const getDirectoryImageFiles = async (path: string): Promise<[string[], string[]]> => {
+export const getDirectoryImageFiles = async (path: string): Promise<[string[], string[], Stats[]]> => {
   const files = await readDirSync(path);
+  console.log({ files });
   const result = files
     .map((fileName) => `${path}/${fileName}`)
     .filter(async (filePath) => {
@@ -19,14 +21,18 @@ export const getDirectoryImageFiles = async (path: string): Promise<[string[], s
       return enableExtnames.includes(extName);
     });
   let arr: string[] = [];
+  let stats: Stats[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const path of result) {
     // eslint-disable-next-line no-await-in-loop
     const base64 = await nodeReadFileSync64(path);
     const url = `data:image/png;base64,${base64}`;
+    // eslint-disable-next-line no-await-in-loop
+    const stat = await statSync(path);
     arr = [...arr, url];
+    stats = [...stats, stat];
   }
-  return [arr, files];
+  return [arr, files, stats];
 };
 
 export const getFileIndexFromFileName = (files: string[], fileName: string) =>

@@ -1,8 +1,10 @@
 export type ViewMode = 'single' | 'spreadStartRight' | 'thumbnail' | 'escape';
+
 export type PageItem = {
   url: string;
   fileName: string;
 };
+
 export type ViewerState = {
   page: number;
   setPage: (num: number) => void;

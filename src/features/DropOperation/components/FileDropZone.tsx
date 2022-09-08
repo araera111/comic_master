@@ -15,7 +15,7 @@ interface FileAddPath extends File {
 export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const { setPageItems, resetPage, setPage, mode, changeLoading } = useViewerStore((state) => state);
   const directory = async (path: string) => {
-    const [imageFiles, fileNames] = await getDirectoryImageFiles(path);
+    const [imageFiles, fileNames, stats] = await getDirectoryImageFiles(path);
     const pageItems = mergeUrlFileName(imageFiles, fileNames);
     setPageItems(pageItems);
     resetPage();
