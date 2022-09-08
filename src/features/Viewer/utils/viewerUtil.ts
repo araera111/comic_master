@@ -1,5 +1,6 @@
-import { includes } from 'rambda';
-import { PageItem, ViewMode } from '../types/ViewerType';
+import { includes, prop, sortBy } from 'rambda';
+import { match } from 'ts-pattern';
+import { PageItem, SortMode, ViewMode } from '../types/ViewerType';
 
 export const getPageUrlString = (pageNumber: number): string => pageNumber.toString().padStart(4, '0');
 export const fixNextPage = (page: number, arrLength: number, mode: ViewMode): number => {
@@ -77,3 +78,17 @@ export const getThumbnailPage = (fileName: string, ThumbnailPages: PageItem[][])
   );
 
 export const getFileName = (pageItems: PageItem[], page: number): string => pageItems[page].fileName;
+
+export const getNextSortMode = (nowSortMode: SortMode) =>
+  match(nowSortMode)
+    .with('fileName', () => 'timestamp' as SortMode)
+    .with('timestamp', () => 'fileName' as SortMode)
+    .exhaustive();
+
+export const sortByTimestamp = (pageItems: PageItem[]): PageItem[] => sortBy(prop('mtime'))(pageItems);
+
+export const setSort = (pageItems: PageItem[], sortMode: SortMode): PageItem[] =>
+  match(sortMode)
+    .with('fileName', () => pageItems.sort())
+    .with('timestamp', () => sortByTimestamp(pageItems))
+    .exhaustive();

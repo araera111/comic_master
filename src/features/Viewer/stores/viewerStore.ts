@@ -1,6 +1,14 @@
 import create from 'zustand';
 import { PageItem, ViewerState, ViewMode } from '../types/ViewerType';
-import { fixNextPage, fixPage, fixPrevPage, nextOnePage, prevOnePage } from '../utils/viewerUtil';
+import {
+  fixNextPage,
+  fixPage,
+  fixPrevPage,
+  getNextSortMode,
+  nextOnePage,
+  prevOnePage,
+  setSort
+} from '../utils/viewerUtil';
 
 export const prevOne = prevOnePage;
 export const nextOne = nextOnePage;
@@ -27,5 +35,10 @@ export const useViewerStore = create<ViewerState>()((set) => ({
   thumbnailPage: 0,
   thumbnailPageList: [],
   setThumbnailpage: (num: number) => set(() => ({ thumbnailPage: num })),
-  setThumbnailPageList: (pages: PageItem[][]) => set(() => ({ thumbnailPageList: pages }))
+  setThumbnailPageList: (pages: PageItem[][]) => set(() => ({ thumbnailPageList: pages })),
+  sortMode: 'fileName',
+  changeSort: () => {
+    set((state) => ({ sortMode: getNextSortMode(state.sortMode) }));
+    set((state) => ({ pageItems: setSort(state.pageItems, state.sortMode) }));
+  }
 }));

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { createStrObject, getExtName, getFileIndexFromFileName, mergeListObject } from './dropOperationUtil';
 
 describe('getExtName', () => {
@@ -41,7 +42,8 @@ describe('mergeListObject', () => {
   it('case1', () => {
     const urlObj = [{ url: 'a' }];
     const fileNameObj = [{ fileName: '1' }];
-    const result = [{ url: 'a', fileName: '1' }];
-    expect(mergeListObject(urlObj, 'url', fileNameObj, 'fileName')).toStrictEqual(result);
+    const mtimeObj = [{ mtime: dayjs('2022-01-01 00:00:00').toDate() }];
+    const result = [{ url: 'a', fileName: '1', mtime: dayjs('2022-01-01 00:00:00').toDate() }];
+    expect(mergeListObject(urlObj, 'url', fileNameObj, 'fileName', mtimeObj, 'mtime')).toStrictEqual(result);
   });
 });

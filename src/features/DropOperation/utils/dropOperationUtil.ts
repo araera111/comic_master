@@ -32,7 +32,6 @@ export const getDirectoryImageFiles = async (path: string): Promise<[string[], s
     arr = [...arr, url];
     mtimes = [...mtimes, stat];
   }
-  console.log({ mtimes });
   return [arr, files, mtimes];
 };
 

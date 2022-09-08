@@ -1,5 +1,16 @@
+import dayjs from 'dayjs';
+import { clone } from 'rambda';
 import { PageItem, ViewMode } from '../types/ViewerType';
-import { fixNextPage, fixPage, fixPrevPage, getThumbnailPage, movePage, nextOnePage, prevOnePage } from './viewerUtil';
+import {
+  fixNextPage,
+  fixPage,
+  fixPrevPage,
+  getThumbnailPage,
+  movePage,
+  nextOnePage,
+  prevOnePage,
+  sortByTimestamp
+} from './viewerUtil';
 
 describe('fixNextPage', () => {
   it('case1, page2, length3, mode:single -> 0', () => {
@@ -226,13 +237,39 @@ describe('movePage', () => {
 describe('getThumbnailPage', () => {
   it('case1', () => {
     const fileName = 'a';
-    const ThumbnailPages: PageItem[][] = [[], [{ fileName: 'a', url: 'http' }]];
+    const ThumbnailPages: PageItem[][] = [[], [{ fileName: 'a', url: 'http', mtime: new Date() }]];
     expect(getThumbnailPage(fileName, ThumbnailPages)).toBe(1);
   });
 
   it('case2', () => {
     const fileName = 'c';
-    const ThumbnailPages: PageItem[][] = [[], [{ fileName: 'a', url: 'http' }], [{ fileName: 'c', url: 'Url' }]];
+    const ThumbnailPages: PageItem[][] = [
+      [],
+      [{ fileName: 'a', url: 'http', mtime: new Date() }],
+      [{ fileName: 'c', url: 'Url', mtime: new Date() }]
+    ];
     expect(getThumbnailPage(fileName, ThumbnailPages)).toBe(2);
+  });
+});
+
+describe('sortByTimestamp', () => {
+  it('case1', () => {
+    const pageItems: PageItem[] = [
+      { fileName: 'a', url: 'http', mtime: dayjs('2022-01-01 00:00:00').toDate() },
+      { fileName: 'b', url: 'http2', mtime: dayjs('2022-01-02 00:00:00').toDate() }
+    ];
+    const result = clone(pageItems);
+    expect(sortByTimestamp(pageItems)).toStrictEqual(result);
+  });
+  it('case2', () => {
+    const pageItems: PageItem[] = [
+      { fileName: 'a', url: 'http', mtime: dayjs('2022-01-03 00:00:00').toDate() },
+      { fileName: 'b', url: 'http2', mtime: dayjs('2022-01-02 00:00:00').toDate() }
+    ];
+    const result = [
+      { fileName: 'b', url: 'http2', mtime: dayjs('2022-01-02 00:00:00').toDate() },
+      { fileName: 'a', url: 'http', mtime: dayjs('2022-01-03 00:00:00').toDate() }
+    ];
+    expect(sortByTimestamp(pageItems)).toStrictEqual(result);
   });
 });

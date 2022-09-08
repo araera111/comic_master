@@ -23,7 +23,6 @@ export const FileDropZone = ({ children }: FileDropZoneProps) => {
   const zip = async (path: string) => {
     changeLoading(true);
     const [imageFiles, fileNames, mtimes] = await unzip(path);
-    console.log({ imageFiles, fileNames, mtimes });
     const pageItems = mergeUrlFileName(imageFiles, fileNames, mtimes);
     setPageItems(pageItems);
     resetPage();
