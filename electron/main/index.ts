@@ -86,6 +86,11 @@ app.on('activate', () => {
   }
 });
 
+ipcMain.on('endFullScreen', (arg) => {
+  if (!win) return;
+  win.fullScreen = false;
+});
+
 // new window example arg: new windows url
 ipcMain.handle('open-win', (event, arg) => {
   const childWindow = new BrowserWindow({

@@ -2,7 +2,7 @@
   "name": "comic_master",
   "productName": "Electron",
   "private": true,
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Vite React Electron boilerplate.",
   "author": "KATO_Yuumin",
   "license": "MIT",
@@ -61,6 +61,7 @@
     "react-scroll-wheel-handler": "^2.2.0",
     "rooks": "^6.4.3",
     "ts-pattern": "^4.0.5",
+    "uuid": "^9.0.0",
     "vitest": "^0.22.1",
     "zustand": "^4.1.1"
   },

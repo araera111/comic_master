@@ -1,6 +1,9 @@
 import { useKey } from 'rooks';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ipcRenderer } from 'electron';
 import { nextOne, prevOne, useViewerStore } from '../../Viewer/stores/viewerStore';
 import { thumbnailMode, toggleFullScreen } from '../utils/keyOperationUtil';
+import { endFullScreen } from '../../../nodeUtil/node-api';
 
 export const KeyOperation = () => {
   const {
@@ -44,5 +47,11 @@ export const KeyOperation = () => {
   useKey(['e'], () => changeMode(mode === 'escape' ? 'spreadStartRight' : 'escape'));
   useKey(['n'], () => changeShowFileName());
   useKey(['s'], () => changeSort());
+  useKey(['Escape'], async () => {
+    await endFullScreen();
+    if (!document?.exitFullscreen) {
+      document?.exitFullscreen();
+    }
+  });
   return null;
 };

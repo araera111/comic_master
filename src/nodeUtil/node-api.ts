@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { ipcRenderer } from 'electron';
 import { readdirSync, readFileSync, statSync } from 'fs';
 import path, { dirname, extname, normalize } from 'path';
 
@@ -10,3 +11,7 @@ export const paths = () => path;
 export const nodeFsStats = async (path: string) => statSync(path);
 export const nodeExtnum = async (path: string) => extname(path);
 export const nodeDirname = async (path: string) => dirname(path);
+
+export const endFullScreen = async () => {
+  ipcRenderer.send('endFullScreen', 'aaa');
+};
